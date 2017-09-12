@@ -1,35 +1,27 @@
 package com.yang.picker.sample;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.yang.picker.CityPickerDialog;
 import com.yang.picker.CityPickerDialog.onCityPickedListener;
+import com.yang.picker.InitAreaTask;
 import com.yang.picker.OnePickerDialog;
-import com.yang.picker.Util;
 import com.yang.picker.address.City;
 import com.yang.picker.address.County;
 import com.yang.picker.address.Province;
 import com.yang.picker.wheel.adapter.AbstractWheelTextAdapter;
 
-import org.apache.http.util.EncodingUtils;
-import org.json.JSONArray;
-
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends Activity {
 
-	private ArrayList<Province> provinces = new ArrayList<Province>();
+	private List<Province> provinces = new ArrayList<>();
 	private Button selectAreaBtn;
 	private Button singlePicker;
 
@@ -45,7 +37,17 @@ public class MainActivity extends Activity {
 				if (provinces.size() > 0) {
 					showAddressDialog();
 				} else {
-					new InitAreaTask(MainActivity.this).execute(0);
+					new InitAreaTask(MainActivity.this, new InitAreaTask.OnPostProvincesListener() {
+						@Override
+						public void onPostProvinces(List<Province> provinces) {
+							MainActivity.this.provinces = provinces;
+							if (provinces.size() > 0) {
+								showAddressDialog();
+							} else {
+								Toast.makeText(MainActivity.this, "数据获取失败", Toast.LENGTH_LONG).show();
+							}
+						}
+					}).execute(0);
 				}
 			}
 		});
@@ -125,64 +127,4 @@ public class MainActivity extends Activity {
 		picker.show();
 	}
 
-	private class InitAreaTask extends AsyncTask<Integer, Integer, Boolean> {
-
-		Context mContext;
-
-		Dialog progressDialog;
-
-		public InitAreaTask(Context context) {
-			mContext = context;
-			progressDialog = Util.createLoadingDialog(mContext, "请稍等...", true,
-					0);
-		}
-
-		@Override
-		protected void onPreExecute() {
-
-			progressDialog.show();
-		}
-
-		@Override
-		protected void onPostExecute(Boolean result) {
-			progressDialog.dismiss();
-			if (provinces.size()>0) {
-				showAddressDialog();
-			} else {
-				Toast.makeText(mContext, "数据初始化失败", Toast.LENGTH_SHORT).show();
-			}
-		}
-
-		@Override
-		protected Boolean doInBackground(Integer... params) {
-			String address = null;
-			InputStream in = null;
-			try {
-				in = mContext.getResources().getAssets().open("address.txt");
-				byte[] arrayOfByte = new byte[in.available()];
-				in.read(arrayOfByte);
-				address = EncodingUtils.getString(arrayOfByte, "UTF-8");
-				JSONArray jsonList = new JSONArray(address);
-				Gson gson = new Gson();
-				for (int i = 0; i < jsonList.length(); i++) {
-					try {
-						provinces.add(gson.fromJson(jsonList.getString(i),
-								Province.class));
-					} catch (Exception e) {
-					}
-				}
-				return true;
-			} catch (Exception e) {
-			} finally {
-				if (in != null) {
-					try {
-						in.close();
-					} catch (IOException e) {
-					}
-				}
-			}
-			return false;
-		}
-
-	}
 }
