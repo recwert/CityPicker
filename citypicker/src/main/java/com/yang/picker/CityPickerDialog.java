@@ -1,12 +1,8 @@
 package com.yang.picker;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.os.Message;
@@ -22,6 +18,9 @@ import com.yang.picker.wheel.OnWheelChangedListener;
 import com.yang.picker.wheel.OnWheelClickedListener;
 import com.yang.picker.wheel.WheelView;
 import com.yang.picker.wheel.adapter.AbstractWheelTextAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CityPickerDialog extends Dialog {
 

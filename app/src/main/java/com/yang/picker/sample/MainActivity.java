@@ -1,30 +1,31 @@
-package com.yang.picker;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-
-import org.apache.http.util.EncodingUtils;
-import org.json.JSONArray;
+package com.yang.picker.sample;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.yang.picker.CityPickerDialog;
 import com.yang.picker.CityPickerDialog.onCityPickedListener;
+import com.yang.picker.OnePickerDialog;
+import com.yang.picker.Util;
 import com.yang.picker.address.City;
 import com.yang.picker.address.County;
 import com.yang.picker.address.Province;
 import com.yang.picker.wheel.adapter.AbstractWheelTextAdapter;
+
+import org.apache.http.util.EncodingUtils;
+import org.json.JSONArray;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 
 public class MainActivity extends Activity {
 
@@ -36,7 +37,7 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		selectAreaBtn = (Button) findViewById(R.id.select_area_btn);
+		selectAreaBtn = findViewById(R.id.select_area_btn);
 		selectAreaBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -57,25 +58,6 @@ public class MainActivity extends Activity {
 				showDateDialog();
 			}
 		});
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
 	}
 
 	private void showAddressDialog() {
