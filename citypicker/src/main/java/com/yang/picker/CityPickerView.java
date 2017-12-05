@@ -247,12 +247,13 @@ public class CityPickerView extends LinearLayout{
         }
 
         mCounties.clear();
-        mCounties.addAll(defaultCity.getCounties());
+        if (defaultCity != null) {
+            mCounties.addAll(defaultCity.getCounties());
+        }
         if (mCounties.size() == 0) {
             mCounties.add(new County());
             countyItem = 0;
         } else if (defaultCounty == null) {
-            defaultCounty = mCounties.get(0);
             countyItem = 0;
         } else {
             for (int i = 0; i < mCounties.size(); i++) {
