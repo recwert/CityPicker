@@ -1,6 +1,7 @@
 package com.yang.picker;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -266,6 +267,12 @@ public class CityPickerView extends LinearLayout{
         citiesWheel.setCurrentItem(cityItem, false);
         countiesWheel.setCurrentItem(countyItem, false);
 
+    }
+
+    public void setCenterDrawable(Drawable centerDrawable) {
+        provinceWheel.setCenterDrawable(centerDrawable);
+        citiesWheel.setCenterDrawable(centerDrawable);
+        countiesWheel.setCenterDrawable(centerDrawable);
     }
 
     public Province getSelectProvince() {

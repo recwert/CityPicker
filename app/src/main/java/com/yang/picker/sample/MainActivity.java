@@ -55,6 +55,7 @@ public class MainActivity extends Activity {
 								cityPickerView.setLayoutParams(layoutParams);
 								cityPickerView.setProvinces((ArrayList<Province>) provinces);
 								cityPickerView.setDefaultArea(null, null, null);
+								cityPickerView.setCenterDrawable(getResources().getDrawable(R.drawable.wheel_center_bg));
 								((LinearLayout)findViewById(R.id.rootView)).addView(cityPickerView);
 							} else {
 								Toast.makeText(MainActivity.this, "数据获取失败", Toast.LENGTH_LONG).show();

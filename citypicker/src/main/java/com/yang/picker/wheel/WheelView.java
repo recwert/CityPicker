@@ -204,6 +204,10 @@ public class WheelView extends View
         visibleItems = count;
     }
 
+    public void setCenterDrawable(Drawable centerDrawable) {
+        this.centerDrawable = centerDrawable;
+    }
+
     /**
      * Gets view adapter
      * @return the view adapter
