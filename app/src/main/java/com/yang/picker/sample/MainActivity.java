@@ -4,11 +4,15 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yang.picker.CityPickerDialog;
 import com.yang.picker.CityPickerDialog.onCityPickedListener;
+import com.yang.picker.CityPickerView;
 import com.yang.picker.InitAreaTask;
 import com.yang.picker.OnePickerDialog;
 import com.yang.picker.address.City;
@@ -24,6 +28,9 @@ public class MainActivity extends Activity {
 	private List<Province> provinces = new ArrayList<>();
 	private Button selectAreaBtn;
 	private Button singlePicker;
+	private CityPickerView cityPickerView;
+	private Button getAreaBtn;
+	private TextView areaText;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +50,12 @@ public class MainActivity extends Activity {
 							MainActivity.this.provinces = provinces;
 							if (provinces.size() > 0) {
 								showAddressDialog();
+								cityPickerView = new CityPickerView(MainActivity.this);
+								LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+								cityPickerView.setLayoutParams(layoutParams);
+								cityPickerView.setProvinces((ArrayList<Province>) provinces);
+								cityPickerView.setDefaultArea(null, null, null);
+								((LinearLayout)findViewById(R.id.rootView)).addView(cityPickerView);
 							} else {
 								Toast.makeText(MainActivity.this, "数据获取失败", Toast.LENGTH_LONG).show();
 							}
@@ -60,6 +73,32 @@ public class MainActivity extends Activity {
 				showDateDialog();
 			}
 		});
+
+
+		getAreaBtn = findViewById(R.id.get_area_btn);
+		areaText = findViewById(R.id.area_text);
+
+		getAreaBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				if (cityPickerView != null) {
+					StringBuilder address = new StringBuilder();
+					Province selectProvince = cityPickerView.getSelectProvince();
+					City selectCity = cityPickerView.getSelectCity();
+					County selectCounty = cityPickerView.getSelectCounty();
+					address.append(
+							selectProvince != null && selectProvince.getAreaName() != null ? selectProvince
+									.getAreaName() : "")
+							.append(selectCity != null && selectCity.getAreaName() != null ? selectCity
+									.getAreaName() : "")
+							.append(selectCounty != null && selectCounty.getAreaName() != null ? selectCounty
+									.getAreaName() : "");
+					areaText.setText(address);
+				}
+			}
+		});
+
+
 	}
 
 	private void showAddressDialog() {
