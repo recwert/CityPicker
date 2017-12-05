@@ -276,6 +276,18 @@ public class CityPickerView extends LinearLayout{
         countiesWheel.setCenterDrawable(centerDrawable);
     }
 
+    public void setProvinceItem(int index) {
+        provinceWheel.setCurrentItem(index);
+    }
+
+    public void setCityItem(int index) {
+        citiesWheel.setCurrentItem(index);
+    }
+
+    public void setCountyItem(int index) {
+        countiesWheel.setCurrentItem(index);
+    }
+
     public Province getSelectProvince() {
         return mProvinces.size() > 0 ? mProvinces
                 .get(provinceWheel.getCurrentItem()) : null;

@@ -31,6 +31,7 @@ public class MainActivity extends Activity {
 	private CityPickerView cityPickerView;
 	private Button getAreaBtn;
 	private TextView areaText;
+	private Button changeCityBtn;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +97,28 @@ public class MainActivity extends Activity {
 									.getAreaName() : "");
 					areaText.setText(address);
 				}
+			}
+		});
+
+		changeCityBtn = findViewById(R.id.change_index_btn);
+		changeCityBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				cityPickerView.setProvinceItem(5);
+				cityPickerView.postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						cityPickerView.setCityItem(2);
+						cityPickerView.postDelayed(new Runnable() {
+							@Override
+							public void run() {
+								cityPickerView.setCountyItem(2);
+							}
+						}, 60);
+					}
+				}, 60);
+
+
 			}
 		});
 

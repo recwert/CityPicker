@@ -34,6 +34,13 @@
         android:layout_height="wrap_content"
         />
 
+    <Button
+        android:id="@+id/change_index_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="改变城市" />
+
 
 
 
